@@ -23,7 +23,6 @@ public class Main {
         } else {
             System.out.println("Celda no encontrada");
         }
-
     }
 }
 

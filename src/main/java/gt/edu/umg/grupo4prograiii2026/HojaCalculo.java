@@ -29,7 +29,7 @@ public class HojaCalculo {
         }
 
         if (buscarCelda(fila, columna) != null) {
-            System.out.println("ya existe un celda en esa posicion");
+            System.out.println("Ya existe un celda en esa posicion");
             return;
         }
 
@@ -116,4 +116,3 @@ public class HojaCalculo {
         }
     }
 }
-
