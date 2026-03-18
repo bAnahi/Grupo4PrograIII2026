@@ -1,10 +1,7 @@
-
 package gt.edu.umg.grupo4prograiii2026;
 
-
 public class HojaCalculo {
-    
-    
+
     Celda inicio;
 
     public HojaCalculo() {
@@ -56,19 +53,23 @@ public class HojaCalculo {
         }
 
         if (buscarCelda(fila, columna) != null) {
-            System.out.println("Ya existe una celda en esa posicion");
+            System.out.println("Ya existe una celda");
             return;
         }
 
         Celda actual = inicio;
         Celda anterior = null;
 
-        while (actual != null && actual.columna == columna) {
+        while (actual != null && actual.fila < fila) {
             anterior = actual;
             actual = actual.abajo;
         }
 
-        if (anterior != null) {
+        if (anterior == null) {
+            nueva.abajo = inicio;
+            inicio = nueva;
+        } else {
+            nueva.abajo = actual;
             anterior.abajo = nueva;
         }
     }
@@ -114,5 +115,58 @@ public class HojaCalculo {
             System.out.println("[" + actual.fila + "," + actual.columna + "] = " + actual.valor);
             actual = actual.abajo;
         }
+    }
+
+    public void modificarCelda(int fila, int columna, String nuevoValor) {
+        Celda celda = buscarCelda(fila, columna);
+
+        if (celda != null) {
+            celda.valor = nuevoValor;
+            System.out.println("Celda modificada correctamente ");
+        } else {
+            System.out.println("La celda no existe ");
+        }
+    }
+
+    public void eliminarCelda(int fila, int columna) {
+
+        Celda actualFila = inicio;
+        Celda anteriorFila = null;
+
+        while (actualFila != null) {
+
+            Celda actual = actualFila;
+            Celda anterior = null;
+
+            while (actual != null) {
+
+                if (actual.fila == fila && actual.columna == columna) {
+
+                    if (anterior == null) {
+                        if (anteriorFila == null) {
+                            inicio = actual.derecha;
+                        } else {
+                            anteriorFila.abajo = actual.derecha;
+                        }
+                    } else {
+                        anterior.derecha = actual.derecha;
+                    }
+
+                    if (actual.abajo != null) {
+                    }
+
+                    System.out.println("Celda eliminada correctamente");
+                    return;
+                }
+
+                anterior = actual;
+                actual = actual.derecha;
+            }
+
+            anteriorFila = actualFila;
+            actualFila = actualFila.abajo;
+        }
+
+        System.out.println("Celda no encontrada");
     }
 }

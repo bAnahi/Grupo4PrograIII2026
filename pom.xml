@@ -9,6 +9,6 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
-        <exec.mainClass>gt.edu.umg.grupo4prograiii2026.Grupo4PrograIII2026</exec.mainClass>
+        <exec.mainClass>gt.edu.umg.grupo4prograiii2026.Main</exec.mainClass>
     </properties>
 </project>
