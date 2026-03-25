@@ -33,7 +33,23 @@ public class Main {
         } else {
             System.out.println("Celda no encontrada");
         }*/
+      int resultado = hoja.sumarCeldas(1, 1, 2, 1);
+        System.out.println("Resultado de la suma: " + resultado);
+        
+        int resultadoRango = hoja.sumarRango(1, 3, 1);
+        System.out.println("Resultado de la suma por rango: " + resultadoRango);
+        
+        int resta = hoja.restarCeldas(2, 1, 1, 1);
+        System.out.println("Resultado de la resta: " + resta);
+
+        int multiplicacion = hoja.multiplicarCeldas(1, 1, 2, 1);
+        System.out.println("Resultado de la multiplicación: " + multiplicacion);
+
+        double division = hoja.dividirCeldas(3, 1, 1, 1);
+        System.out.println("Resultado de la división: " + division);
     }
+    
+    
 }
 
 

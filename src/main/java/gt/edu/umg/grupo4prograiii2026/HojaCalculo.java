@@ -169,4 +169,85 @@ public class HojaCalculo {
 
         System.out.println("Celda no encontrada");
     }
+    public int sumarCeldas(int fila1, int columna1, int fila2, int columna2) {
+
+    Celda c1 = buscarCelda(fila1, columna1);
+    Celda c2 = buscarCelda(fila2, columna2);
+
+    if (c1 == null || c2 == null) {
+        System.out.println("Una de las celdas no existe");
+        return 0;
+    }
+
+    int valor1 = Integer.parseInt(c1.valor);
+    int valor2 = Integer.parseInt(c2.valor);
+
+    return valor1 + valor2;
+}
+   public int sumarRango(int filaInicio, int filaFin, int columna) {
+
+    int suma = 0;
+
+    for (int i = filaInicio; i <= filaFin; i++) {
+        Celda celda = buscarCelda(i, columna);
+
+        if (celda != null) {
+            suma += Integer.parseInt(celda.valor);
+        }
+    }
+
+    return suma;
+}
+   public int restarCeldas(int fila1, int columna1, int fila2, int columna2) {
+
+    Celda c1 = buscarCelda(fila1, columna1);
+    Celda c2 = buscarCelda(fila2, columna2);
+
+    if (c1 == null || c2 == null) {
+        System.out.println("Una de las celdas no existe");
+        return 0;
+    }
+
+    int valor1 = Integer.parseInt(c1.valor);
+    int valor2 = Integer.parseInt(c2.valor);
+
+    return valor1 - valor2;
+}
+
+public int multiplicarCeldas(int fila1, int columna1, int fila2, int columna2) {
+
+    Celda c1 = buscarCelda(fila1, columna1);
+    Celda c2 = buscarCelda(fila2, columna2);
+
+    if (c1 == null || c2 == null) {
+        System.out.println("Una de las celdas no existe");
+        return 0;
+    }
+
+    int valor1 = Integer.parseInt(c1.valor);
+    int valor2 = Integer.parseInt(c2.valor);
+
+    return valor1 * valor2;
+}
+
+public double dividirCeldas(int fila1, int columna1, int fila2, int columna2) {
+
+    Celda c1 = buscarCelda(fila1, columna1);
+    Celda c2 = buscarCelda(fila2, columna2);
+
+    if (c1 == null || c2 == null) {
+        System.out.println("Una de las celdas no existe");
+        return 0;
+    }
+
+    double valor1 = Double.parseDouble(c1.valor);
+    double valor2 = Double.parseDouble(c2.valor);
+
+    if (valor2 == 0) {
+        System.out.println("No se puede dividir entre cero");
+        return 0;
+    }
+
+    return valor1 / valor2;
+}
 }
