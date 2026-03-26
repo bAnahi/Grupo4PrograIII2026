@@ -128,7 +128,7 @@ public class HojaCalculo {
         }
     }
 
-    public void eliminarCelda(int fila, int columna) {
+    /*public void eliminarCelda(int fila, int columna) {
 
         Celda actualFila = inicio;
         Celda anteriorFila = null;
@@ -153,6 +153,52 @@ public class HojaCalculo {
                     }
 
                     if (actual.abajo != null) {
+                        anterior.derecha = actual.derecha;
+                        
+                    }
+
+                    System.out.println("Celda eliminada correctamente");
+                    return;
+                }
+
+                anterior = actual;
+                actual = actual.derecha;
+            }
+
+            anteriorFila = actualFila;
+            actualFila = actualFila.abajo;
+        }
+
+        System.out.println("Celda no encontrada");
+    }*/
+    public void eliminarCelda(int fila, int columna) {
+        Celda actualFila = inicio;
+        Celda anteriorFila = null;
+
+        while (actualFila != null) {
+            Celda actual = actualFila;
+            Celda anterior = null;
+
+            while (actual != null) {
+                if (actual.fila == fila && actual.columna == columna) {
+
+                    if (anterior == null) {
+                        if (anteriorFila == null) {
+                            inicio = actual.derecha;
+                        } else {
+                            anteriorFila.abajo = actual.derecha;
+                        }
+                    } else {
+                        anterior.derecha = actual.derecha;
+                    }
+                    if (actual.abajo != null) {
+                        if (anterior != null) {
+                            anterior.abajo = actual.abajo;
+                        } else if (anteriorFila != null) {
+                            anteriorFila.abajo = actual.abajo;
+                        } else {
+                            inicio = actual.abajo;
+                        }
                     }
 
                     System.out.println("Celda eliminada correctamente");
@@ -279,7 +325,6 @@ public class HojaCalculo {
             f = f.abajo;
         }
 
-
         int[] anchos = new int[maxColumna + 1];
 
         f = inicio;
@@ -295,17 +340,14 @@ public class HojaCalculo {
             f = f.abajo;
         }
 
-        
         for (int i = 1; i <= maxColumna; i++) {
             if (anchos[i] < 5) {
                 anchos[i] = 5;
             }
         }
 
-        
         String separador = construirSeparador(anchos, maxColumna);
 
-        
         System.out.println(separador);
         System.out.print("|     |");
         for (int col = 1; col <= maxColumna; col++) {
@@ -344,5 +386,3 @@ public class HojaCalculo {
         return " ".repeat(izq) + texto + " ".repeat(der);
     }
 }
-
-
