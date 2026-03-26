@@ -169,85 +169,180 @@ public class HojaCalculo {
 
         System.out.println("Celda no encontrada");
     }
+
     public int sumarCeldas(int fila1, int columna1, int fila2, int columna2) {
 
-    Celda c1 = buscarCelda(fila1, columna1);
-    Celda c2 = buscarCelda(fila2, columna2);
+        Celda c1 = buscarCelda(fila1, columna1);
+        Celda c2 = buscarCelda(fila2, columna2);
 
-    if (c1 == null || c2 == null) {
-        System.out.println("Una de las celdas no existe");
-        return 0;
+        if (c1 == null || c2 == null) {
+            System.out.println("Una de las celdas no existe");
+            return 0;
+        }
+
+        int valor1 = Integer.parseInt(c1.valor);
+        int valor2 = Integer.parseInt(c2.valor);
+
+        return valor1 + valor2;
     }
 
-    int valor1 = Integer.parseInt(c1.valor);
-    int valor2 = Integer.parseInt(c2.valor);
+    public int sumarRango(int filaInicio, int filaFin, int columna) {
 
-    return valor1 + valor2;
-}
-   public int sumarRango(int filaInicio, int filaFin, int columna) {
+        int suma = 0;
 
-    int suma = 0;
+        for (int i = filaInicio; i <= filaFin; i++) {
+            Celda celda = buscarCelda(i, columna);
 
-    for (int i = filaInicio; i <= filaFin; i++) {
-        Celda celda = buscarCelda(i, columna);
+            if (celda != null) {
+                suma += Integer.parseInt(celda.valor);
+            }
+        }
 
-        if (celda != null) {
-            suma += Integer.parseInt(celda.valor);
+        return suma;
+    }
+
+    public int restarCeldas(int fila1, int columna1, int fila2, int columna2) {
+
+        Celda c1 = buscarCelda(fila1, columna1);
+        Celda c2 = buscarCelda(fila2, columna2);
+
+        if (c1 == null || c2 == null) {
+            System.out.println("Una de las celdas no existe");
+            return 0;
+        }
+
+        int valor1 = Integer.parseInt(c1.valor);
+        int valor2 = Integer.parseInt(c2.valor);
+
+        return valor1 - valor2;
+    }
+
+    public int multiplicarCeldas(int fila1, int columna1, int fila2, int columna2) {
+
+        Celda c1 = buscarCelda(fila1, columna1);
+        Celda c2 = buscarCelda(fila2, columna2);
+
+        if (c1 == null || c2 == null) {
+            System.out.println("Una de las celdas no existe");
+            return 0;
+        }
+
+        int valor1 = Integer.parseInt(c1.valor);
+        int valor2 = Integer.parseInt(c2.valor);
+
+        return valor1 * valor2;
+    }
+
+    public double dividirCeldas(int fila1, int columna1, int fila2, int columna2) {
+
+        Celda c1 = buscarCelda(fila1, columna1);
+        Celda c2 = buscarCelda(fila2, columna2);
+
+        if (c1 == null || c2 == null) {
+            System.out.println("Una de las celdas no existe");
+            return 0;
+        }
+
+        double valor1 = Double.parseDouble(c1.valor);
+        double valor2 = Double.parseDouble(c2.valor);
+
+        if (valor2 == 0) {
+            System.out.println("No se puede dividir entre cero");
+            return 0;
+        }
+
+        return valor1 / valor2;
+    }
+
+    public void imprimirHoja() {
+
+        if (inicio == null) {
+            System.out.println("La hoja esta vacia");
+            return;
+        }
+
+        int maxFila = 0;
+        int maxColumna = 0;
+
+        Celda f = inicio;
+        while (f != null) {
+            Celda c = f;
+            while (c != null) {
+                if (c.fila > maxFila) {
+                    maxFila = c.fila;
+                }
+                if (c.columna > maxColumna) {
+                    maxColumna = c.columna;
+                }
+                c = c.derecha;
+            }
+            f = f.abajo;
+        }
+
+
+        int[] anchos = new int[maxColumna + 1];
+
+        f = inicio;
+        while (f != null) {
+            Celda c = f;
+            while (c != null) {
+                int len = c.valor.length();
+                if (len > anchos[c.columna]) {
+                    anchos[c.columna] = len;
+                }
+                c = c.derecha;
+            }
+            f = f.abajo;
+        }
+
+        
+        for (int i = 1; i <= maxColumna; i++) {
+            if (anchos[i] < 5) {
+                anchos[i] = 5;
+            }
+        }
+
+        
+        String separador = construirSeparador(anchos, maxColumna);
+
+        
+        System.out.println(separador);
+        System.out.print("|     |");
+        for (int col = 1; col <= maxColumna; col++) {
+            System.out.print(centrar("C" + col, anchos[col]) + "|");
+        }
+        System.out.println();
+        System.out.println(separador);
+
+        for (int fila = 1; fila <= maxFila; fila++) {
+            System.out.print("| F" + fila + " |");
+            for (int col = 1; col <= maxColumna; col++) {
+                Celda celda = buscarCelda(fila, col);
+                String texto = (celda != null) ? celda.valor : "---";
+                System.out.print(centrar(texto, anchos[col]) + "|");
+            }
+            System.out.println();
+            System.out.println(separador);
         }
     }
 
-    return suma;
-}
-   public int restarCeldas(int fila1, int columna1, int fila2, int columna2) {
-
-    Celda c1 = buscarCelda(fila1, columna1);
-    Celda c2 = buscarCelda(fila2, columna2);
-
-    if (c1 == null || c2 == null) {
-        System.out.println("Una de las celdas no existe");
-        return 0;
+    private String construirSeparador(int[] anchos, int maxColumna) {
+        StringBuilder sb = new StringBuilder("+-----+");
+        for (int i = 1; i <= maxColumna; i++) {
+            for (int j = 0; j < anchos[i] + 2; j++) {
+                sb.append('-');
+            }
+            sb.append('+');
+        }
+        return sb.toString();
     }
 
-    int valor1 = Integer.parseInt(c1.valor);
-    int valor2 = Integer.parseInt(c2.valor);
-
-    return valor1 - valor2;
-}
-
-public int multiplicarCeldas(int fila1, int columna1, int fila2, int columna2) {
-
-    Celda c1 = buscarCelda(fila1, columna1);
-    Celda c2 = buscarCelda(fila2, columna2);
-
-    if (c1 == null || c2 == null) {
-        System.out.println("Una de las celdas no existe");
-        return 0;
+    private String centrar(String texto, int ancho) {
+        int total = ancho + 2;
+        int izq = (total - texto.length()) / 2;
+        int der = total - texto.length() - izq;
+        return " ".repeat(izq) + texto + " ".repeat(der);
     }
-
-    int valor1 = Integer.parseInt(c1.valor);
-    int valor2 = Integer.parseInt(c2.valor);
-
-    return valor1 * valor2;
 }
 
-public double dividirCeldas(int fila1, int columna1, int fila2, int columna2) {
 
-    Celda c1 = buscarCelda(fila1, columna1);
-    Celda c2 = buscarCelda(fila2, columna2);
-
-    if (c1 == null || c2 == null) {
-        System.out.println("Una de las celdas no existe");
-        return 0;
-    }
-
-    double valor1 = Double.parseDouble(c1.valor);
-    double valor2 = Double.parseDouble(c2.valor);
-
-    if (valor2 == 0) {
-        System.out.println("No se puede dividir entre cero");
-        return 0;
-    }
-
-    return valor1 / valor2;
-}
-}
