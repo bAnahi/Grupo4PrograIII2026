@@ -385,4 +385,5 @@ public class HojaCalculo {
         int der = total - texto.length() - izq;
         return " ".repeat(izq) + texto + " ".repeat(der);
     }
+    
 }
