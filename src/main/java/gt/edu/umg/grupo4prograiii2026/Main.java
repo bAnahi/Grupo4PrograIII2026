@@ -1,5 +1,7 @@
 package gt.edu.umg.grupo4prograiii2026;
 
+import gt.edu.umg.grupo4prograiii2026.avl.ArbolAVL;
+import gt.edu.umg.grupo4prograiii2026.modelo.Libro;
 import java.util.Scanner;
 
 public class Main {
@@ -10,32 +12,11 @@ public class Main {
         Scanner s = new Scanner(System.in);
 
         insercionEjemplo(hoja);
-        boolean op;
+
+        boolean salir;
         do {
-            op = menu(hoja, s);
-        } while (!op);
-
-
-        /*hoja.insertarPrimeraCelda(1, 1, "10");
-        hoja.insertarEnColumna(2, 1, "52");
-        hoja.insertarEnColumna(3, 1, "70");
-        
-        System.out.println("Columna original: ");
-        hoja.mostrarColumna();*/
- /* hoja.modificarCelda(2, 1, "100");
-        System.out.println("Despues de modificar: ");
-        hoja.mostrarColumna();
-
-        Celda encontrada = hoja.buscarCelda(2, 1);*/
- /*hoja.eliminarCelda(1,1);
-        System.out.println("Eliminado correctamente ");
-        hoja.mostrarColumna();*/
-
- /*  if (encontrada != null) {
-            System.out.println("Celda ya encontrada: " + encontrada.valor);
-        } else {
-            System.out.println("Celda no encontrada");
-        }*/
+            salir = menu(hoja, s);
+        } while (!salir);
     }
 
     public static void insercionEjemplo(HojaCalculo hoja) {
@@ -44,7 +25,7 @@ public class Main {
         hoja.insertarEnColumna(2, 1, "52");
         hoja.insertarEnColumna(3, 1, "70");
 
-        System.out.println("Se han ingresado datos de Ejemplo...\n");
+        System.out.println("Se han ingresado datos de ejemplo...\n");
         hoja.mostrarColumna();
         System.out.println("");
         hoja.imprimirHoja();
@@ -53,8 +34,8 @@ public class Main {
     public static boolean menu(HojaCalculo hoja, Scanner s) {
         boolean salir = false;
         int op = 0;
-        try {
 
+        try {
             System.out.println("\nOpciones en Hoja de Calculo:");
             System.out.println();
             System.out.println("1. Insertar Valores En Celda");
@@ -65,12 +46,15 @@ public class Main {
             System.out.println("6. Division de Celdas");
             System.out.println("7. Eliminar Celda");
             System.out.println("8. Modificar Celda");
-            System.out.println("9. Salir");
+            System.out.println("9. Probar AVL");
+            System.out.println("10. Salir");
             System.out.println();
-            System.out.print("Seleccione una Opcion: ");
+            System.out.print("Seleccione una opcion: ");
             op = s.nextInt();
         } catch (Exception e) {
             System.out.println("Error con el ingreso de los datos.");
+            s.nextLine();
+            return false;
         }
 
         switch (op) {
@@ -99,13 +83,17 @@ public class Main {
                 modCelda(hoja, s);
                 break;
             case 9:
+                probarAVL();
+                break;
+            case 10:
                 salir = true;
-                System.out.println("Saliendo....");
+                System.out.println("Saliendo...");
                 break;
             default:
-                System.out.println("Opcion Incorrecta");
+                System.out.println("Opcion incorrecta");
                 break;
         }
+
         s.nextLine();
         return salir;
     }
@@ -120,14 +108,13 @@ public class Main {
             System.out.print("Ingrese el Valor a Insertar: ");
             String valor = s.next();
             hoja.insertarEnColumna(fila, columna, valor);
-            //System.out.print("Columna original: ");
             System.out.println("");
             hoja.imprimirHoja();
 
         } catch (Exception e) {
             System.out.println("Error con el ingreso de los datos.");
+            s.nextLine();
         }
-
     }
 
     public static void sumarCeldas(HojaCalculo hoja, Scanner s) {
@@ -151,8 +138,8 @@ public class Main {
 
         } catch (Exception e) {
             System.out.println("Error con el ingreso de los datos.");
+            s.nextLine();
         }
-
     }
 
     public static void sumarRango(HojaCalculo hoja, Scanner s) {
@@ -171,8 +158,8 @@ public class Main {
 
         } catch (Exception e) {
             System.out.println("Error con el ingreso de los datos.");
+            s.nextLine();
         }
-
     }
 
     public static void restarCeldas(HojaCalculo hoja, Scanner s) {
@@ -196,8 +183,8 @@ public class Main {
 
         } catch (Exception e) {
             System.out.println("Error con el ingreso de los datos.");
+            s.nextLine();
         }
-
     }
 
     public static void multiplicarCeldas(HojaCalculo hoja, Scanner s) {
@@ -215,14 +202,14 @@ public class Main {
             int columna2 = s.nextInt();
 
             int multiplicacion = hoja.multiplicarCeldas(fila1, columna1, fila2, columna2);
-            System.out.println("\nResultado de la multiplicación: " + multiplicacion);
+            System.out.println("\nResultado de la multiplicacion: " + multiplicacion);
             System.out.println("");
             hoja.imprimirHoja();
 
         } catch (Exception e) {
             System.out.println("Error con el ingreso de los datos.");
+            s.nextLine();
         }
-
     }
 
     public static void divCeldas(HojaCalculo hoja, Scanner s) {
@@ -240,14 +227,14 @@ public class Main {
             int columna2 = s.nextInt();
 
             double division = hoja.dividirCeldas(fila1, columna1, fila2, columna2);
-            System.out.println("\nResultado de la división: " + division);
+            System.out.println("\nResultado de la division: " + division);
             System.out.println("");
             hoja.imprimirHoja();
 
         } catch (Exception e) {
             System.out.println("Error con el ingreso de los datos.");
+            s.nextLine();
         }
-
     }
 
     public static void eliminarCelda(HojaCalculo hoja, Scanner s) {
@@ -259,10 +246,11 @@ public class Main {
             hoja.eliminarCelda(fila1, columna1);
             System.out.println("");
             hoja.imprimirHoja();
+
         } catch (Exception e) {
             System.out.println("Error con el ingreso de los datos.");
+            s.nextLine();
         }
-
     }
 
     public static void modCelda(HojaCalculo hoja, Scanner s) {
@@ -280,8 +268,41 @@ public class Main {
 
         } catch (Exception e) {
             System.out.println("Error con el ingreso de los datos.");
+            s.nextLine();
         }
-
     }
 
+    public static void probarAVL() {
+        ArbolAVL avl = new ArbolAVL();
+
+        long inicio = System.nanoTime();
+
+        avl.insertar(new Libro(30, "ISBN30", "Libro 30", "Autor A", 2020, "Historia"));
+        avl.insertar(new Libro(20, "ISBN20", "Libro 20", "Autor B", 2021, "Ciencia"));
+        avl.insertar(new Libro(10, "ISBN10", "Libro 10", "Autor C", 2022, "Novela"));
+
+        long fin = System.nanoTime();
+
+        System.out.println("\n********** PRUEBA AVL **********");
+        System.out.println("Tiempo de insercion AVL: " + (fin - inicio));
+        System.out.println("Altura del arbol AVL: " + avl.getAlturaArbol());
+        System.out.println("Rotaciones realizadas: " + avl.getRotaciones());
+
+        if (avl.buscar(20) != null) {
+            System.out.println("Libro encontrado en el AVL");
+        } else {
+            System.out.println("Libro no encontrado en el AVL");
+        }
+
+        avl.eliminar(20);
+
+        if (avl.buscar(20) == null) {
+            System.out.println("Libro eliminado correctamente del AVL");
+        } else {
+            System.out.println("No se elimino el libro del AVL");
+        }
+
+        System.out.println("Altura del arbol AVL despues de eliminar: " + avl.getAlturaArbol());
+        System.out.println("Rotaciones realizadas despues de eliminar: " + avl.getRotaciones());
+    }
 }
