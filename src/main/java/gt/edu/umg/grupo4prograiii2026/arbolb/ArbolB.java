@@ -1,13 +1,17 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package gt.edu.umg.grupo4prograiii2026.arbolb;
 
-/**
- *
- * @author whiteHat
- */
+
 public class ArbolB {
+    private NodoB raiz;
+    private int divisiones = 0;
     
+    public ArbolB(){
+        raiz = new NodoB(true);
+    }
+
+    public int getDivisiones() {
+        return divisiones;
+    }
+       
 }
