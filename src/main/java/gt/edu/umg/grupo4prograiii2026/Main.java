@@ -1,5 +1,6 @@
 package gt.edu.umg.grupo4prograiii2026;
 
+import gt.edu.umg.grupo4prograiii2026.arbolb.ArbolB;
 import gt.edu.umg.grupo4prograiii2026.avl.ArbolAVL;
 import gt.edu.umg.grupo4prograiii2026.modelo.Libro;
 import java.util.Scanner;
@@ -46,7 +47,7 @@ public class Main {
             System.out.println("6. Division de Celdas");
             System.out.println("7. Eliminar Celda");
             System.out.println("8. Modificar Celda");
-            System.out.println("9. Probar AVL");
+            System.out.println("9. Probar AVL y Arbol B");
             System.out.println("10. Salir");
             System.out.println();
             System.out.print("Seleccione una opcion: ");
@@ -84,6 +85,7 @@ public class Main {
                 break;
             case 9:
                 probarAVL();
+                probarB();
                 break;
             case 10:
                 salir = true;
@@ -304,5 +306,36 @@ public class Main {
 
         System.out.println("Altura del arbol AVL despues de eliminar: " + avl.getAlturaArbol());
         System.out.println("Rotaciones realizadas despues de eliminar: " + avl.getRotaciones());
+    }
+
+    public static void probarB() {
+        ArbolB arbolB = new ArbolB();
+        long inicio = System.nanoTime();
+        arbolB.insertar(new Libro(30, "ISBN30", "Libro 30", "Autor A", 2020, "Historia"));
+        arbolB.insertar(new Libro(20, "ISBN20", "Libro 20", "Autor B", 2021, "Ciencia"));
+        arbolB.insertar(new Libro(10, "ISBN10", "Libro 10", "Autor C", 2022, "Novela"));
+        long fin = System.nanoTime();
+        
+                System.out.println("\n********** PRUEBA Arbol B **********");
+        System.out.println("Tiempo de Insercion Arbol B: " + (fin - inicio));
+        System.out.println("Altura del Arbol B: " + arbolB.altura());
+        System.out.println("Divisiones realizadas: " + arbolB.getDivisiones());
+        
+                if (arbolB.buscar(20) != null) {
+            System.out.println("Libro encontrado en el Arbol B");
+        } else {
+            System.out.println("Libro no encontrado en el Arbol B");
+        }
+
+        arbolB.eliminar(20);
+
+        if (arbolB.buscar(20) == null) {
+            System.out.println("Libro eliminado correctamente del Arbol B");
+        } else {
+            System.out.println("No se elimino el libro del Arbol B");
+        }
+
+        System.out.println("Redistribuciones al eliminar: " + arbolB.getRedistribuciones());
+        System.out.println("Divisiones realizadas despues de eliminar: " + arbolB.getDivisiones());
     }
 }
