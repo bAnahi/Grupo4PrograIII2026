@@ -137,6 +137,7 @@ public class ArbolB {
 
         padre.claves[indice] = lleno.claves[mitad];
 
+        
         padre.numClaves++;
 
         divisiones++;
