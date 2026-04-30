@@ -3,20 +3,65 @@ package gt.edu.umg.grupo4prograiii2026;
 import gt.edu.umg.grupo4prograiii2026.arbolb.ArbolB;
 import gt.edu.umg.grupo4prograiii2026.avl.ArbolAVL;
 import gt.edu.umg.grupo4prograiii2026.modelo.Libro;
+import gt.edu.umg.grupo4prograiii2026.controladores.bibliotecaDigital;
 import java.util.Scanner;
 
 public class Main {
 
     public static void main(String[] args) {
-
-        HojaCalculo hoja = new HojaCalculo();
         Scanner s = new Scanner(System.in);
+        boolean salir = false;
+
+        while (!salir) {
+            salir = mostrarMenuPrincipal(s);
+        }
+
+        s.close();
+        System.out.println("\n✓ Programa finalizado correctamente");
+    }
+
+    public static boolean mostrarMenuPrincipal(Scanner scanner) {
+        System.out.println("\n-------------------------------------------");
+        System.out.println("|   MENÚ PRINCIPAL - UMG PROGRAMACIÓN III    |");
+        System.out.println("----------------------------------------------");
+        System.out.println("\n1. Hoja de Cálculo (Entregable 1)");
+        System.out.println("2. Biblioteca Digital - AVL y Árbol B");
+        System.out.println("3. Salir");
+        System.out.print("\nSeleccione una opción: ");
+
+        String opcion = scanner.nextLine().trim();
+
+        switch (opcion) {
+            case "1":
+                ejecutarHojaCalculo(scanner);
+                return false;
+
+            case "2":
+                bibliotecaDigital bd = new bibliotecaDigital();
+                bd.mostrarMenu(scanner);
+                return false;
+
+            case "3":
+                return true;
+
+            default:
+                System.out.println(" Opción inválida");
+                return false;
+        }
+    }
+
+    public static void ejecutarHojaCalculo(Scanner scanner) {
+        HojaCalculo hoja = new HojaCalculo();
+
+        System.out.println("\n" + "=".repeat(60));
+        System.out.println("MÓDULO: HOJA DE CÁLCULO");
+        System.out.println("=".repeat(60));
 
         insercionEjemplo(hoja);
 
         boolean salir;
         do {
-            salir = menu(hoja, s);
+            salir = menu(hoja, scanner);
         } while (!salir);
     }
 
@@ -315,13 +360,13 @@ public class Main {
         arbolB.insertar(new Libro(20, "ISBN20", "Libro 20", "Autor B", 2021, "Ciencia"));
         arbolB.insertar(new Libro(10, "ISBN10", "Libro 10", "Autor C", 2022, "Novela"));
         long fin = System.nanoTime();
-        
-                System.out.println("\n********** PRUEBA Arbol B **********");
+
+        System.out.println("\n********** PRUEBA Arbol B **********");
         System.out.println("Tiempo de Insercion Arbol B: " + (fin - inicio));
         System.out.println("Altura del Arbol B: " + arbolB.altura());
         System.out.println("Divisiones realizadas: " + arbolB.getDivisiones());
-        
-                if (arbolB.buscar(20) != null) {
+
+        if (arbolB.buscar(20) != null) {
             System.out.println("Libro encontrado en el Arbol B");
         } else {
             System.out.println("Libro no encontrado en el Arbol B");

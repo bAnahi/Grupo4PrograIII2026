@@ -128,49 +128,6 @@ public class HojaCalculo {
         }
     }
 
-    /*public void eliminarCelda(int fila, int columna) {
-
-        Celda actualFila = inicio;
-        Celda anteriorFila = null;
-
-        while (actualFila != null) {
-
-            Celda actual = actualFila;
-            Celda anterior = null;
-
-            while (actual != null) {
-
-                if (actual.fila == fila && actual.columna == columna) {
-
-                    if (anterior == null) {
-                        if (anteriorFila == null) {
-                            inicio = actual.derecha;
-                        } else {
-                            anteriorFila.abajo = actual.derecha;
-                        }
-                    } else {
-                        anterior.derecha = actual.derecha;
-                    }
-
-                    if (actual.abajo != null) {
-                        anterior.derecha = actual.derecha;
-                        
-                    }
-
-                    System.out.println("Celda eliminada correctamente");
-                    return;
-                }
-
-                anterior = actual;
-                actual = actual.derecha;
-            }
-
-            anteriorFila = actualFila;
-            actualFila = actualFila.abajo;
-        }
-
-        System.out.println("Celda no encontrada");
-    }*/
     public void eliminarCelda(int fila, int columna) {
         Celda actualFila = inicio;
         Celda anteriorFila = null;

@@ -209,6 +209,7 @@ public class ArbolB {
         nodo.numClaves--;
     }
 
+    
     private void eliminarDeNoHoja(NodoB nodo, int idx) {
 
         Libro clave = nodo.claves[idx];
