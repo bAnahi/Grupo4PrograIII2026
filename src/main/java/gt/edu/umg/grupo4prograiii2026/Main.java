@@ -21,35 +21,39 @@ public class Main {
     }
 
     public static boolean mostrarMenuPrincipal(Scanner scanner) {
-        System.out.println("\n-------------------------------------------");
-        System.out.println("|   MENÚ PRINCIPAL - UMG PROGRAMACIÓN III    |");
-        System.out.println("----------------------------------------------");
-        System.out.println("\n1. Hoja de Cálculo (Entregable 1)");
-        System.out.println("2. Biblioteca Digital - AVL y Árbol B");
-        System.out.println("3. Salir");
-        System.out.print("\nSeleccione una opción: ");
+    System.out.println("\n-------------------------------------------");
+    System.out.println("|   MENÚ PRINCIPAL - UMG PROGRAMACIÓN III  |");
+    System.out.println("-------------------------------------------");
+    System.out.println("\n1. Hoja de Cálculo");
+    System.out.println("2. Árboles - Biblioteca");
+    System.out.println("3. En Desarrollo");
+    System.out.println("4. Salir");
+    System.out.print("\nSeleccione una opción: ");
 
-        String opcion = scanner.nextLine().trim();
+    String opcion = scanner.nextLine().trim();
 
-        switch (opcion) {
-            case "1":
-                ejecutarHojaCalculo(scanner);
-                return false;
+    switch (opcion) {
+        case "1":
+            ejecutarHojaCalculo(scanner);
+            return false;
 
-            case "2":
-                bibliotecaDigital bd = new bibliotecaDigital();
-                bd.mostrarMenu(scanner);
-                return false;
+        case "2":
+            bibliotecaDigital bd = new bibliotecaDigital();
+            bd.mostrarMenu(scanner);
+            return false;
 
-            case "3":
-                return true;
+        case "3":
+            System.out.println("Módulo en desarrollo...");
+            return false;
 
-            default:
-                System.out.println(" Opción inválida");
-                return false;
-        }
+        case "4":
+            return true;
+
+        default:
+            System.out.println("Opción inválida");
+            return false;
     }
-
+}
     public static void ejecutarHojaCalculo(Scanner scanner) {
         HojaCalculo hoja = new HojaCalculo();
 
