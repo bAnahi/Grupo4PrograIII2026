@@ -6,6 +6,7 @@ package gt.edu.umg.grupo4prograiii2026.controladores;
 
 import gt.edu.umg.grupo4prograiii2026.avl.ArbolAVL;
 import gt.edu.umg.grupo4prograiii2026.arbolb.ArbolB;
+import gt.edu.umg.grupo4prograiii2026.avl.NodoAVL;
 import gt.edu.umg.grupo4prograiii2026.conexion.conexionSQL;
 import gt.edu.umg.grupo4prograiii2026.modelo.Libro;
 import java.util.List;
@@ -22,13 +23,13 @@ public class bibliotecaDigital {
         boolean salir = false;
 
         while (!salir) {
-            System.out.println("\n===== BIBLIOTECA DIGITAL =====");
-            System.out.println("1. Conectar a SQL Server");
+            System.out.println("\n1.Conectar a SQL Server");
             System.out.println("2. Cargar datos");
             System.out.println("3. Ejecutar análisis");
-            System.out.println("4. Volver");
+            System.out.println("4. Operaciones manuales");
+            System.out.println("5. Volver");
 
-            System.out.print("Seleccione opción: ");
+            System.out.print("\nSeleccione opción: ");
             String op = scanner.nextLine();
 
             switch (op) {
@@ -42,6 +43,9 @@ public class bibliotecaDigital {
                     ejecutarAnalisis();
                     break;
                 case "4":
+                    operacionesManual(scanner);
+                    break;
+                case "5":
                     salir = true;
                     break;
                 default:
@@ -54,13 +58,19 @@ public class bibliotecaDigital {
         conexion = new conexionSQL("localhost", "1433", "BibliotecaBD", "ADMIN", "ADMIN1234");
 
         if (conexion.conectar()) {
-            System.out.println("Conectado correctamente");
+            System.out.println("\nConectado correctamente");
         } else {
             System.out.println("Error al conectar");
         }
     }
 
     private void cargarDatos() {
+
+        if (conexion == null) {
+            System.out.println("Primero conecte a la base de datos");
+            return;
+        }
+
         libros = conexion.obtenerTodosLosLibros();
 
         if (libros == null || libros.isEmpty()) {
@@ -71,6 +81,12 @@ public class bibliotecaDigital {
     }
 
     private void ejecutarAnalisis() {
+
+        if (conexion == null) {
+            System.out.println("Primero conecte a la base de datos");
+            return;
+        }
+
         if (libros == null || libros.isEmpty()) {
             System.out.println("Primero cargue datos");
             return;
@@ -93,29 +109,141 @@ public class bibliotecaDigital {
 
         System.out.println("\n--- RESULTADOS ---");
 
-        System.out.println("\nAVL:");
-        System.out.println("Tiempo: " + (finAVL - inicioAVL));
-        System.out.println("Altura: " + avl.getAlturaArbol());
-        System.out.println("Rotaciones: " + avl.getRotaciones());
+        System.out.println("\nINSERCIÓN:");
+        System.out.println("AVL Tiempo: " + (finAVL - inicioAVL));
+        System.out.println("AVL Altura: " + avl.getAlturaArbol());
+        System.out.println("AVL Rotaciones: " + avl.getRotaciones());
 
-        System.out.println("\nÁRBOL B:");
-        System.out.println("Tiempo: " + (finB - inicioB));
-        System.out.println("Altura: " + arbolB.altura());
-        System.out.println("Divisiones: " + arbolB.getDivisiones());
-        System.out.println("Fusiones: " + arbolB.getFusiones());
-        System.out.println("Redistribuciones: " + arbolB.getRedistribuciones());
+        System.out.println("\n B Tiempo: " + (finB - inicioB));
+        System.out.println("B Altura: " + arbolB.altura());
+        System.out.println("B Divisiones: " + arbolB.getDivisiones());
+        System.out.println("B Fusiones: " + arbolB.getFusiones());
+        System.out.println("B Redistribuciones: " + arbolB.getRedistribuciones());
 
-        // PRUEBA DE BÚSQUEDA
-        int codigo = libros.get(0).getCodigoLibro();
+        long inicioBusquedaAVL = System.nanoTime();
+        for (int i = 0; i < libros.size(); i++) {
+            avl.buscar(libros.get(i).getCodigoLibro());
+        }
+        long finBusquedaAVL = System.nanoTime();
 
-        System.out.println("\nBúsqueda código: " + codigo);
-        System.out.println("AVL: " + (avl.buscar(codigo) != null));
-        System.out.println("B: " + (arbolB.buscar(codigo) != null));
+        long inicioBusquedaB = System.nanoTime();
+        for (int i = 0; i < libros.size(); i++) {
+            arbolB.buscar(libros.get(i).getCodigoLibro());
+        }
+        long finBusquedaB = System.nanoTime();
 
-        // ELIMINACIÓN
-        avl.eliminar(codigo);
-        arbolB.eliminar(codigo);
+        System.out.println("\nBÚSQUEDA :");
+        System.out.println("AVL Tiempo: " + (finBusquedaAVL - inicioBusquedaAVL));
+        System.out.println("B Tiempo: " + (finBusquedaB - inicioBusquedaB));
 
-        System.out.println("\nEliminado código: " + codigo);
+       long inicioElimAVL = System.nanoTime();
+        for (int i = 0; i < libros.size() / 2; i++) {
+            avl.eliminar(libros.get(i).getCodigoLibro());
+        }
+        long finElimAVL = System.nanoTime();
+
+        long inicioElimB = System.nanoTime();
+        for (int i = 0; i < libros.size() / 2; i++) {
+            arbolB.eliminar(libros.get(i).getCodigoLibro());
+        }
+        long finElimB = System.nanoTime();
+
+        System.out.println("\nELIMINACIÓN :");
+        System.out.println("AVL Tiempo: " + (finElimAVL - inicioElimAVL));
+        System.out.println("B Tiempo: " + (finElimB - inicioElimB));
+        avl=new ArbolAVL();
+        arbolB = new ArbolB();
+        for(Libro l: libros)    {
+            avl.insertar(l);
+            arbolB.insertar(l);
+        
+        }
     }
-}
+   
+    private void operacionesManual(Scanner scanner) {
+
+    if (avl == null || arbolB == null) {
+        System.out.println("Primero ejecute el análisis");
+        return;
+    }
+
+    System.out.println("\n1. Buscar");
+    System.out.println("2. Insertar");
+    System.out.println("3. Eliminar");
+    System.out.print("Seleccione: ");
+    String op = scanner.nextLine();
+
+    System.out.print("Ingrese código: ");
+    int codigo = Integer.parseInt(scanner.nextLine());
+
+    switch (op) {
+
+        case "1":
+
+            NodoAVL nodoAVL = avl.buscar(codigo);
+            Libro libroB = arbolB.buscar(codigo);
+
+            System.out.println("\n--- RESULTADO AVL ---");
+            if (nodoAVL != null) {
+                Libro l = nodoAVL.getLibro();
+                System.out.println("Código: " + l.getCodigoLibro());
+                System.out.println("ISBN: " + l.getIsbn());
+                System.out.println("Título: " + l.getTitulo());
+                System.out.println("Autor: " + l.getAutor());
+                System.out.println("Año: " + l.getAnio());
+                System.out.println("Categoría: " + l.getCategoria());
+            } else {
+                System.out.println("No encontrado");
+            }
+
+            System.out.println("\n--- RESULTADO ÁRBOL B ---");
+            if (libroB != null) {
+                System.out.println("Código: " + libroB.getCodigoLibro());
+                System.out.println("ISBN: " + libroB.getIsbn());
+                System.out.println("Título: " + libroB.getTitulo());
+                System.out.println("Autor: " + libroB.getAutor());
+                System.out.println("Año: " + libroB.getAnio());
+                System.out.println("Categoría: " + libroB.getCategoria());
+            } else {
+                System.out.println("No encontrado");
+            }
+
+            break;
+
+        case "2":
+
+            System.out.print("Ingrese ISBN: ");
+            String isbn = scanner.nextLine();
+
+            System.out.print("Ingrese título: ");
+            String titulo = scanner.nextLine();
+
+            System.out.print("Ingrese autor: ");
+            String autor = scanner.nextLine();
+
+            System.out.print("Ingrese año: ");
+            int anio = Integer.parseInt(scanner.nextLine());
+
+            System.out.print("Ingrese categoría: ");
+            String categoria = scanner.nextLine();
+
+            Libro nuevo = new Libro(codigo, isbn, titulo, autor, anio, categoria);
+
+            avl.insertar(nuevo);
+            arbolB.insertar(nuevo);
+
+            System.out.println("Insertado correctamente");
+            break;
+
+        case "3":
+
+            avl.eliminar(codigo);
+            arbolB.eliminar(codigo);
+
+            System.out.println("Eliminado correctamente");
+            break;
+
+        default:
+            System.out.println("Opción inválida");
+    }
+}}

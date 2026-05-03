@@ -111,15 +111,16 @@ public class ArbolB {
 
         int mitad = (NodoB.M - 1) / 2;
 
-        nuevo.numClaves = mitad;
-
-        for (int j = 0; j < mitad; j++) {
-            nuevo.claves[j] = lleno.claves[j + mitad + 1];
+        int k = 0;
+        for (int j = mitad + 1; j < lleno.numClaves; j++) {
+            nuevo.claves[k++] = lleno.claves[j];
         }
+        nuevo.numClaves = k;
 
         if (!lleno.hoja) {
-            for (int j = 0; j < mitad + 1; j++) {
-                nuevo.hijos[j] = lleno.hijos[j + mitad + 1];
+            int k2 = 0;
+            for (int j = mitad + 1; j <= lleno.numClaves; j++) {
+                nuevo.hijos[k2++] = lleno.hijos[j];
             }
         }
 
@@ -137,7 +138,6 @@ public class ArbolB {
 
         padre.claves[indice] = lleno.claves[mitad];
 
-        
         padre.numClaves++;
 
         divisiones++;
@@ -145,12 +145,14 @@ public class ArbolB {
 
     public void eliminar(int codigoLibro) {
 
+        if (raiz == null) return;
+
         eliminarRecursivo(raiz, codigoLibro);
 
         if (raiz.numClaves == 0) {
 
             if (raiz.hoja) {
-                raiz = null;
+                raiz = new NodoB(true);
             } else {
                 raiz = raiz.hijos[0];
             }
@@ -210,7 +212,6 @@ public class ArbolB {
         nodo.numClaves--;
     }
 
-    
     private void eliminarDeNoHoja(NodoB nodo, int idx) {
 
         Libro clave = nodo.claves[idx];
@@ -322,10 +323,16 @@ public class ArbolB {
         NodoB hijo = nodo.hijos[idx];
         NodoB hermano = nodo.hijos[idx + 1];
 
-        hijo.claves[1] = nodo.claves[idx];
+        hijo.claves[hijo.numClaves] = nodo.claves[idx];
 
         for (int i = 0; i < hermano.numClaves; i++) {
-            hijo.claves[i + 2] = hermano.claves[i];
+            hijo.claves[hijo.numClaves + 1 + i] = hermano.claves[i];
+        }
+
+        if (!hijo.hoja) {
+            for (int i = 0; i <= hermano.numClaves; i++) {
+                hijo.hijos[hijo.numClaves + 1 + i] = hermano.hijos[i];
+            }
         }
 
         hijo.numClaves += hermano.numClaves + 1;
@@ -341,6 +348,8 @@ public class ArbolB {
 
     public int altura() {
 
+        if (raiz == null) return 0;
+
         int altura = 0;
 
         NodoB actual = raiz;
@@ -352,5 +361,4 @@ public class ArbolB {
 
         return altura + 1;
     }
-
 }

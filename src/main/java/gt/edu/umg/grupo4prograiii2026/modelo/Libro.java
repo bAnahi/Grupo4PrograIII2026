@@ -1,4 +1,3 @@
-
 package gt.edu.umg.grupo4prograiii2026.modelo;
 
 public class Libro {
@@ -25,5 +24,21 @@ public class Libro {
 
     public String getTitulo() {
         return titulo;
+    }
+
+    public String getIsbn() {
+        return isbn;
+    }
+
+    public String getAutor() {
+        return autor;
+    }
+
+    public int getAnio() {
+        return anio;
+    }
+
+    public String getCategoria() {
+        return categoria;
     }
 }

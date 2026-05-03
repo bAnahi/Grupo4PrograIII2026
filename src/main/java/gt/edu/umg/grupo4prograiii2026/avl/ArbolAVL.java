@@ -80,9 +80,9 @@ public class ArbolAVL {
             return new NodoAVL(libro);
         }
 
-        if (libro.getCodigoLibro() < nodo.libro.getCodigoLibro()) {
+        if (libro.getCodigoLibro() < nodo.getLibro().getCodigoLibro()) {
             nodo.izquierdo = insertarRecursivo(nodo.izquierdo, libro);
-        } else if (libro.getCodigoLibro() > nodo.libro.getCodigoLibro()) {
+        } else if (libro.getCodigoLibro() > nodo.getLibro().getCodigoLibro()) {
             nodo.derecho = insertarRecursivo(nodo.derecho, libro);
         } else {
             return nodo;
@@ -92,20 +92,20 @@ public class ArbolAVL {
 
         int balance = getBalance(nodo);
 
-        if (balance > 1 && libro.getCodigoLibro() < nodo.izquierdo.libro.getCodigoLibro()) {
+        if (balance > 1 && libro.getCodigoLibro() < nodo.izquierdo.getLibro().getCodigoLibro()) {
             return rotacionDerecha(nodo);
         }
 
-        if (balance < -1 && libro.getCodigoLibro() > nodo.derecho.libro.getCodigoLibro()) {
+        if (balance < -1 && libro.getCodigoLibro() > nodo.derecho.getLibro().getCodigoLibro()) {
             return rotacionIzquierda(nodo);
         }
 
-        if (balance > 1 && libro.getCodigoLibro() > nodo.izquierdo.libro.getCodigoLibro()) {
+        if (balance > 1 && libro.getCodigoLibro() > nodo.izquierdo.getLibro().getCodigoLibro()) {
             nodo.izquierdo = rotacionIzquierda(nodo.izquierdo);
             return rotacionDerecha(nodo);
         }
 
-        if (balance < -1 && libro.getCodigoLibro() < nodo.derecho.libro.getCodigoLibro()) {
+        if (balance < -1 && libro.getCodigoLibro() < nodo.derecho.getLibro().getCodigoLibro()) {
             nodo.derecho = rotacionDerecha(nodo.derecho);
             return rotacionIzquierda(nodo);
         }
@@ -119,11 +119,11 @@ public class ArbolAVL {
 
     private NodoAVL buscarRecursivo(NodoAVL nodo, int codigoLibro) {
 
-        if (nodo == null || nodo.libro.getCodigoLibro() == codigoLibro) {
+        if (nodo == null || nodo.getLibro().getCodigoLibro() == codigoLibro) {
             return nodo;
         }
 
-        if (codigoLibro < nodo.libro.getCodigoLibro()) {
+        if (codigoLibro < nodo.getLibro().getCodigoLibro()) {
             return buscarRecursivo(nodo.izquierdo, codigoLibro);
         } else {
             return buscarRecursivo(nodo.derecho, codigoLibro);
@@ -140,20 +140,14 @@ public class ArbolAVL {
             return nodo;
         }
 
-        if (codigoLibro < nodo.libro.getCodigoLibro()) {
+        if (codigoLibro < nodo.getLibro().getCodigoLibro()) {
             nodo.izquierdo = eliminarRecursivo(nodo.izquierdo, codigoLibro);
-        } else if (codigoLibro > nodo.libro.getCodigoLibro()) {
+        } else if (codigoLibro > nodo.getLibro().getCodigoLibro()) {
             nodo.derecho = eliminarRecursivo(nodo.derecho, codigoLibro);
         } else {
 
             if ((nodo.izquierdo == null) || (nodo.derecho == null)) {
-                NodoAVL temp;
-
-                if (nodo.izquierdo != null) {
-                    temp = nodo.izquierdo;
-                } else {
-                    temp = nodo.derecho;
-                }
+                NodoAVL temp = (nodo.izquierdo != null) ? nodo.izquierdo : nodo.derecho;
 
                 if (temp == null) {
                     nodo = null;
@@ -163,10 +157,8 @@ public class ArbolAVL {
 
             } else {
                 NodoAVL temp = nodoMinimo(nodo.derecho);
-
-                nodo.libro = temp.libro;
-
-                nodo.derecho = eliminarRecursivo(nodo.derecho, temp.libro.getCodigoLibro());
+                nodo.setLibro(temp.getLibro());
+                nodo.derecho = eliminarRecursivo(nodo.derecho, temp.getLibro().getCodigoLibro());
             }
         }
 
