@@ -4,6 +4,7 @@ import gt.edu.umg.grupo4prograiii2026.arbolb.ArbolB;
 import gt.edu.umg.grupo4prograiii2026.avl.ArbolAVL;
 import gt.edu.umg.grupo4prograiii2026.modelo.Libro;
 import gt.edu.umg.grupo4prograiii2026.controladores.bibliotecaDigital;
+import gt.edu.umg.grupo4prograiii2026.memoria.PrimerAjuste;
 import java.util.Scanner;
 
 public class Main {
@@ -26,7 +27,7 @@ public class Main {
     System.out.println("-------------------------------------------");
     System.out.println("\n1. Hoja de Cálculo");
     System.out.println("2. Árboles - Biblioteca");
-    System.out.println("3. En Desarrollo");
+    System.out.println("3. Administración de memoria");
     System.out.println("4. Salir");
     System.out.print("\nSeleccione una opción: ");
 
@@ -43,8 +44,41 @@ public class Main {
             return false;
 
         case "3":
-            System.out.println("Módulo en desarrollo...");
-            return false;
+
+    System.out.println("\n=== ADMINISTRACIÓN DE MEMORIA ===");
+    System.out.println("a. Primer ajuste");
+    System.out.println("b. Mejor ajuste");
+    System.out.println("c. Peor ajuste");
+
+    System.out.print("\nSeleccione una opción: ");
+
+    String opcionMemoria = scanner.nextLine();
+
+    switch (opcionMemoria.toLowerCase()) {
+
+        case "a":
+
+            PrimerAjuste pa = new PrimerAjuste();
+            pa.ejecutar();
+
+            break;
+
+        case "b":
+
+            System.out.println("\nMejor Ajuste aun pendiente...");
+            break;
+
+        case "c":
+
+            System.out.println("\nPeor Ajuste aun pendiente...");
+            break;
+
+        default:
+
+            System.out.println("\nOpción inválida");
+    }
+
+    return false;
 
         case "4":
             return true;
